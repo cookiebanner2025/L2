@@ -953,6 +953,55 @@ function injectConsentHTML(detectedCookies, language = 'en') {
     </div>
     
     <style>
+
+
+
+
+    .cookie-value-wrapper {
+    position: relative;
+    display: inline-block;
+    max-width: 100%;
+}
+
+.cookie-value {
+    display: inline;
+    word-break: break-all;
+}
+
+.cookie-value.truncated {
+    display: inline;
+}
+
+.toggle-value {
+    color: #3498db;
+    font-size: 12px;
+    margin-left: 8px;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.toggle-value:hover {
+    color: #1d6fa5;
+    text-decoration: underline;
+}
+
+/* Ensure mobile responsiveness */
+@media (max-width: 768px) {
+    .cookie-value-wrapper {
+        display: block;
+    }
+
+    .cookie-value {
+        display: inline-block;
+        max-width: 100%;
+        word-break: break-all;
+    }
+
+    .toggle-value {
+        display: inline-block;
+        margin-top: 5px;
+    }
+}
     /* Main Banner Styles */
     .cookie-consent-banner {
         position: fixed;
@@ -1902,6 +1951,31 @@ function initializeCookieConsent(detectedCookies, language) {
             }
         });
     });
+
+
+
+
+    // Setup cookie value toggle
+    document.querySelectorAll('.toggle-value').forEach(toggle => {
+        toggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            const wrapper = this.closest('.cookie-value-wrapper');
+            const valueElement = wrapper.querySelector('.cookie-value');
+            const fullValue = valueElement.getAttribute('data-full-value');
+            
+            if (this.getAttribute('data-state') === 'show') {
+                valueElement.textContent = fullValue;
+                valueElement.classList.remove('truncated');
+                this.textContent = 'Hide Full';
+                this.setAttribute('data-state', 'hide');
+            } else {
+                valueElement.textContent = fullValue.substring(0, 20) + '...';
+                valueElement.classList.add('truncated');
+                this.textContent = 'Show Full';
+                this.setAttribute('data-state', 'show');
+            }
+        });
+    });
     
     // Setup language selector change event
     const languageSelect = document.getElementById('cookieLanguageSelect');
@@ -2034,7 +2108,14 @@ function generateCookieTable(cookies) {
             ${cookies.map(cookie => `
             <tr>
                 <td><code>${cookie.name}</code></td>
-                <td><code>${cookie.value.length > 20 ? cookie.value.substring(0, 20) + '...' : cookie.value}</code></td>
+                <td>
+                    <div class="cookie-value-wrapper">
+                        <code class="cookie-value ${cookie.value.length > 20 ? 'truncated' : ''}" data-full-value="${cookie.value}">
+                            ${cookie.value.length > 20 ? cookie.value.substring(0, 20) + '...' : cookie.value}
+                        </code>
+                        ${cookie.value.length > 20 ? `<a href="#" class="toggle-value" data-state="show">Show Full</a>` : ''}
+                    </div>
+                </td>
                 <td>${cookie.duration}</td>
                 <td>${cookie.description}</td>
             </tr>`).join('')}
