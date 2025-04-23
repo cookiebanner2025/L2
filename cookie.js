@@ -56,7 +56,7 @@ const config = {
             endTime: '23:59',        // End time (24-hour format)
             daysOfWeek: [1,2,3,4,5], // 0=Sunday, 1=Monday, etc.
             durationDays: 365,       // Alternative: show banner for X days from first visit
-            durationMinutes: null    // Alternative: show banner for X minutes per session
+            durationMinutes: 2    // Alternative: show banner for X minutes per session
         }
     },
     
