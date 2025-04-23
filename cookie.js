@@ -56,7 +56,7 @@ const config = {
             endTime: '23:59',        // End time (24-hour format)
             daysOfWeek: [1,2,3,4,5], // 0=Sunday, 1=Monday, etc.
             durationDays: 365,       // Alternative: show banner for X days from first visit
-            durationMinutes: 2    // Alternative: show banner for X minutes per session
+            durationMinutes: 2       // Alternative: show banner for X minutes per session
         }
     },
     
@@ -994,6 +994,10 @@ function injectConsentHTML(detectedCookies, language = 'en') {
                     ${cookies.length > 0 ? 
                         generateCookieTable(cookies) : 
                         `<p class="no-cookies-message">No cookies in this category detected.</p>`}
+                    ${category === 'advertising' && config.analytics.enabled ? `
+                    <div class="see-analytics-container">
+                        <a href="#" class="see-analytics-link">${lang.seeAnalytics}</a>
+                    </div>` : ''}
                 </div>
             </div>
         </div>`;
@@ -1023,12 +1027,6 @@ function injectConsentHTML(detectedCookies, language = 'en') {
         </svg>
     </div>` : '';
     
-    // Generate the "See Consent Analytics" link
-    const seeAnalyticsLink = config.analytics.enabled ? `
-    <div class="see-analytics-container">
-        <a href="#" class="see-analytics-link">${lang.seeAnalytics}</a>
-    </div>` : '';
-    
     const html = `
     <!-- Main Consent Banner -->
     <div id="cookieConsentBanner" class="cookie-consent-banner">
@@ -1039,7 +1037,6 @@ function injectConsentHTML(detectedCookies, language = 'en') {
                 <p>${lang.description}</p>
                 <a href="/privacy-policy/" class="privacy-policy-link">${lang.privacy}</a>
             </div>
-            ${seeAnalyticsLink}
             <div class="cookie-consent-buttons">
                 <button id="acceptAllBtn" class="cookie-btn accept-btn">${lang.accept}</button>
                 <button id="adjustConsentBtn" class="cookie-btn adjust-btn">${lang.customize}</button>
@@ -1155,25 +1152,6 @@ function injectConsentHTML(detectedCookies, language = 'en') {
 
     .privacy-policy-link:hover {
         color: ${config.bannerStyle.linkHoverColor};
-    }
-
-    /* See Analytics Link */
-    .see-analytics-container {
-        margin-bottom: 16px;
-    }
-
-    .see-analytics-link {
-        color: ${config.bannerStyle.linkColor};
-        text-decoration: none;
-        font-size: 13px;
-        font-weight: 500;
-        display: inline-block;
-        transition: color 0.2s ease;
-    }
-
-    .see-analytics-link:hover {
-        color: ${config.bannerStyle.linkHoverColor};
-        text-decoration: underline;
     }
 
     .cookie-consent-buttons {
@@ -1520,6 +1498,27 @@ function injectConsentHTML(detectedCookies, language = 'en') {
         border-radius: 3px;
         font-family: monospace;
         color: ${config.bannerStyle.title.color};
+    }
+
+    /* See Analytics Link */
+    .see-analytics-container {
+        margin-top: 15px;
+        padding-top: 15px;
+        border-top: 1px solid #e0e0e0;
+    }
+
+    .see-analytics-link {
+        color: ${config.bannerStyle.linkColor};
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 500;
+        display: inline-block;
+        transition: color 0.2s ease;
+    }
+
+    .see-analytics-link:hover {
+        color: ${config.bannerStyle.linkHoverColor};
+        text-decoration: underline;
     }
 
     /* Mobile-friendly cookie value display */
@@ -2208,7 +2207,7 @@ function initializeCookieConsent(detectedCookies, language) {
         setupPasswordPromptEvents();
     }
     
-    // Setup "See Consent Analytics" link
+    // Setup "See Consent Analytics" link in the advertising cookies section
     const seeAnalyticsLink = document.querySelector('.see-analytics-link');
     if (seeAnalyticsLink) {
         seeAnalyticsLink.addEventListener('click', function(e) {
@@ -2219,6 +2218,11 @@ function initializeCookieConsent(detectedCookies, language) {
     
     // Setup timer for durationMinutes if enabled
     if (config.behavior.bannerSchedule.enabled && config.behavior.bannerSchedule.durationMinutes) {
+        // Clear any existing timer
+        if (bannerTimer) {
+            clearTimeout(bannerTimer);
+        }
+        
         bannerTimer = setTimeout(() => {
             if (!getCookie('cookie_consent')) {
                 hideCookieBanner();
