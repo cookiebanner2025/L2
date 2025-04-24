@@ -1060,9 +1060,11 @@ function injectConsentHTML(detectedCookies, language = 'en') {
                 <div class="see-analytics-container">
                     <a href="#" class="see-analytics-link">${lang.seeAnalytics}</a>
                 </div>` : ''}
-                <button id="rejectAllSettingsBtn" class="cookie-btn reject-btn">${lang.reject}</button>
-                <button id="saveSettingsBtn" class="cookie-btn save-btn">${lang.save}</button>
-                <button id="acceptAllSettingsBtn" class="cookie-btn accept-btn">${lang.accept}</button>
+                <div class="modal-buttons-container">
+                    <button id="rejectAllSettingsBtn" class="cookie-btn reject-btn">${lang.reject}</button>
+                    <button id="saveSettingsBtn" class="cookie-btn save-btn">${lang.save}</button>
+                    <button id="acceptAllSettingsBtn" class="cookie-btn accept-btn">${lang.accept}</button>
+                </div>
             </div>
         </div>
     </div>
@@ -1158,6 +1160,8 @@ function injectConsentHTML(detectedCookies, language = 'en') {
         display: flex;
         gap: 12px;
         margin-top: 8px;
+        flex-direction: row;
+        flex-wrap: wrap;
     }
 
     .cookie-btn {
@@ -1224,6 +1228,17 @@ function injectConsentHTML(detectedCookies, language = 'en') {
         color: ${config.buttonStyle.save.hover.color};
         transform: ${config.buttonStyle.save.hover.transform};
         box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+    }
+
+    /* Modal Footer Buttons */
+    .modal-buttons-container {
+        display: flex;
+        gap: 12px;
+        margin-top: 15px;
+    }
+
+    .modal-buttons-container .cookie-btn {
+        flex: 1;
     }
 
     /* Language Selector Styles */
@@ -1741,7 +1756,7 @@ function injectConsentHTML(detectedCookies, language = 'en') {
 
     .stat-card {
         background-color: ${config.dashboardStyle.statCards.background};
-            border-radius: ${config.dashboardStyle.statCards.borderRadius};
+                border-radius: ${config.dashboardStyle.statCards.borderRadius};
         padding: 15px;
         text-align: center;
         transition: all 0.3s ease;
@@ -1856,9 +1871,6 @@ function injectConsentHTML(detectedCookies, language = 'en') {
     .cookie-settings-footer {
         padding: 20px 30px;
         background-color: ${config.modalStyle.footer.background};
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
         border-top: ${config.modalStyle.footer.borderTop};
     }
 
@@ -1929,13 +1941,9 @@ function injectConsentHTML(detectedCookies, language = 'en') {
             padding: 20px;
         }
         
-        .cookie-consent-buttons {
-            flex-direction: column;
-        }
-        
         .cookie-btn {
-            width: 100%;
-            margin-bottom: 8px;
+            flex: 1;
+            min-width: 120px;
         }
         
         .cookie-btn:last-child {
@@ -1951,16 +1959,19 @@ function injectConsentHTML(detectedCookies, language = 'en') {
         }
         
         .cookie-settings-footer {
-            flex-direction: column;
             padding: 15px 20px;
         }
         
-        .cookie-settings-footer .cookie-btn {
+        .modal-buttons-container {
+            flex-direction: column;
+        }
+        
+        .modal-buttons-container .cookie-btn {
             width: 100%;
             margin-bottom: 8px;
         }
         
-        .cookie-settings-footer .cookie-btn:last-child {
+        .modal-buttons-container .cookie-btn:last-child {
             margin-bottom: 0;
         }
         
@@ -1987,6 +1998,7 @@ function injectConsentHTML(detectedCookies, language = 'en') {
     @media (max-width: 480px) {
         .cookie-consent-banner {
             padding: 15px;
+            flex-direction: column;
             width: calc(100% - 30px);
             ${config.behavior.bannerPosition === 'left' ? 'left: 15px;' : 'right: 15px;'}
         }
