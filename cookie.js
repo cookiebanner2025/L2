@@ -1931,7 +1931,14 @@ function injectConsentHTML(detectedCookies, language = 'en') {
             grid-template-columns: repeat(2, 1fr);
         }
     }
-
+@media (min-width: 768px) {
+    .cookie-consent-buttons {
+        flex-direction: row;
+    }
+    .cookie-btn {
+        flex: 1;
+    }
+}
     @media (max-width: 768px) {
         .cookie-consent-banner {
             width: 90%;
