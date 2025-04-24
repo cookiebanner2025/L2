@@ -1154,11 +1154,13 @@ function injectConsentHTML(detectedCookies, language = 'en') {
         color: ${config.bannerStyle.linkHoverColor};
     }
 
-    .cookie-consent-buttons {
-        display: flex;
-        gap: 12px;
-        margin-top: 8px;
-    }
+  .cookie-consent-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+    flex-direction: row; /* Explicitly set to row */
+    flex-wrap: wrap; /* Allows buttons to wrap on small screens */
+}
 
     .cookie-btn {
         padding: ${config.buttonStyle.padding};
@@ -1929,14 +1931,12 @@ function injectConsentHTML(detectedCookies, language = 'en') {
             padding: 20px;
         }
         
-        .cookie-consent-buttons {
-            flex-direction: column;
-        }
         
-        .cookie-btn {
-            width: 100%;
-            margin-bottom: 8px;
-        }
+        
+     .cookie-btn {
+    flex: 1;
+    min-width: 120px; /* Prevents buttons from getting too small */
+}
         
         .cookie-btn:last-child {
             margin-bottom: 0;
@@ -1987,6 +1987,7 @@ function injectConsentHTML(detectedCookies, language = 'en') {
     @media (max-width: 480px) {
         .cookie-consent-banner {
             padding: 15px;
+            flex-direction: column;
             width: calc(100% - 30px);
             ${config.behavior.bannerPosition === 'left' ? 'left: 15px;' : 'right: 15px;'}
         }
