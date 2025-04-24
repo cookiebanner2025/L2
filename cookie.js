@@ -994,10 +994,6 @@ function injectConsentHTML(detectedCookies, language = 'en') {
                     ${cookies.length > 0 ? 
                         generateCookieTable(cookies) : 
                         `<p class="no-cookies-message">No cookies in this category detected.</p>`}
-                    ${category === 'advertising' && config.analytics.enabled ? `
-                    <div class="see-analytics-container">
-                        <a href="#" class="see-analytics-link">${lang.seeAnalytics}</a>
-                    </div>` : ''}
                 </div>
             </div>
         </div>`;
@@ -1059,26 +1055,15 @@ function injectConsentHTML(detectedCookies, language = 'en') {
                 ${generateCategorySection('advertising')}
                 ${detectedCookies.uncategorized.length > 0 ? generateCategorySection('uncategorized') : ''}
             </div>
-
-
-
-
-            
-         // In the main HTML structure, modify the cookie-settings-footer div:
-<div class="cookie-settings-footer">
-    ${config.analytics.enabled ? `
-    <div class="see-analytics-footer">
-        <a href="#" class="see-analytics-link">${lang.seeAnalytics}</a>
-    </div>` : ''}
-    <button id="rejectAllSettingsBtn" class="cookie-btn reject-btn">${lang.reject}</button>
-    <button id="saveSettingsBtn" class="cookie-btn save-btn">${lang.save}</button>
-    <button id="acceptAllSettingsBtn" class="cookie-btn accept-btn">${lang.accept}</button>
-</div>
-
-
-
-
-            
+            <div class="cookie-settings-footer">
+                ${config.analytics.enabled ? `
+                <div class="see-analytics-container">
+                    <a href="#" class="see-analytics-link">${lang.seeAnalytics}</a>
+                </div>` : ''}
+                <button id="rejectAllSettingsBtn" class="cookie-btn reject-btn">${lang.reject}</button>
+                <button id="saveSettingsBtn" class="cookie-btn save-btn">${lang.save}</button>
+                <button id="acceptAllSettingsBtn" class="cookie-btn accept-btn">${lang.accept}</button>
+            </div>
         </div>
     </div>
 
@@ -1517,9 +1502,8 @@ function injectConsentHTML(detectedCookies, language = 'en') {
 
     /* See Analytics Link */
     .see-analytics-container {
-        margin-top: 15px;
-        padding-top: 15px;
-        border-top: 1px solid #e0e0e0;
+        margin-bottom: 15px;
+        text-align: center;
     }
 
     .see-analytics-link {
@@ -1757,7 +1741,7 @@ function injectConsentHTML(detectedCookies, language = 'en') {
 
     .stat-card {
         background-color: ${config.dashboardStyle.statCards.background};
-        border-radius: ${config.dashboardStyle.statCards.borderRadius};
+                border-radius: ${config.dashboardStyle.statCards.borderRadius};
         padding: 15px;
         text-align: center;
         transition: all 0.3s ease;
@@ -1873,7 +1857,7 @@ function injectConsentHTML(detectedCookies, language = 'en') {
         padding: 20px 30px;
         background-color: ${config.modalStyle.footer.background};
         display: flex;
-        justify-content: flex-end;
+        flex-direction: column;
         gap: 15px;
         border-top: ${config.modalStyle.footer.borderTop};
     }
@@ -1919,35 +1903,6 @@ function injectConsentHTML(detectedCookies, language = 'en') {
         margin-top: 10px;
         font-size: 14px;
     }
-
-
-
-
-.see-analytics-footer {
-    width: 100%;
-    text-align: center;
-    margin-bottom: 15px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid #e0e0e0;
-}
-
-.see-analytics-footer .see-analytics-link {
-    color: ${config.bannerStyle.linkColor};
-    text-decoration: none;
-    font-size: 13px;
-    font-weight: 500;
-    transition: color 0.2s ease;
-}
-
-.see-analytics-footer .see-analytics-link:hover {
-    color: ${config.bannerStyle.linkHoverColor};
-    text-decoration: underline;
-}
-
-
-
-
-    
 
     /* Responsive Styles */
     @media (max-width: 900px) {
@@ -2251,7 +2206,7 @@ function initializeCookieConsent(detectedCookies, language) {
         setupPasswordPromptEvents();
     }
     
-    // Setup "See Consent Analytics" link in the advertising cookies section
+    // Setup "See Consent Analytics" link in the modal footer
     const seeAnalyticsLink = document.querySelector('.see-analytics-link');
     if (seeAnalyticsLink) {
         seeAnalyticsLink.addEventListener('click', function(e) {
