@@ -1061,9 +1061,10 @@ function injectConsentHTML(detectedCookies, language = 'en') {
                     <a href="#" class="see-analytics-link">${lang.seeAnalytics}</a>
                 </div>` : ''}
                 <div class="modal-buttons-container">
+                    <button id="acceptAllSettingsBtn" class="cookie-btn accept-btn">${lang.accept}</button>
                     <button id="rejectAllSettingsBtn" class="cookie-btn reject-btn">${lang.reject}</button>
                     <button id="saveSettingsBtn" class="cookie-btn save-btn">${lang.save}</button>
-                    <button id="acceptAllSettingsBtn" class="cookie-btn accept-btn">${lang.accept}</button>
+                    
                 </div>
             </div>
         </div>
