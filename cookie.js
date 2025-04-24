@@ -3040,7 +3040,7 @@ function rejectAllCookies() {
         status: 'rejected',
         gcs: 'G100',
         categories: {
-            functional: true,
+            functional: false,
             analytics: false,
             performance: false,
             advertising: false,
