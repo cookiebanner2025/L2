@@ -1156,13 +1156,12 @@ function injectConsentHTML(detectedCookies, language = 'en') {
         color: ${config.bannerStyle.linkHoverColor};
     }
 
-    .cookie-consent-buttons {
-        display: flex;
-        gap: 12px;
-        margin-top: 8px;
-        flex-direction: row;
-        flex-wrap: wrap;
-    }
+.cookie-consent-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 8px;
+}
 
     .cookie-btn {
         padding: ${config.buttonStyle.padding};
@@ -1939,6 +1938,7 @@ function injectConsentHTML(detectedCookies, language = 'en') {
             ${config.behavior.bannerPosition === 'left' ? 'left: 5%;' : 'right: 5%;'}
             bottom: 10px;
             padding: 20px;
+            flex-direction: row;
         }
         
         .cookie-btn {
