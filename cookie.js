@@ -1938,7 +1938,7 @@ function injectConsentHTML(detectedCookies, language = 'en') {
             ${config.behavior.bannerPosition === 'left' ? 'left: 5%;' : 'right: 5%;'}
             bottom: 10px;
             padding: 20px;
-            flex-direction: row;
+            flex-direction: column;
         }
         
         .cookie-btn {
