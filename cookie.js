@@ -27,7 +27,7 @@ const config = {
         showAdminButton: true,
         floatingButtonPosition: 'right',
         adminButtonPosition: 'left',
-        bannerPosition: 'right',
+        bannerPosition: 'left',
         bannerAnimation: {
             duration: 0.4,
             easing: 'cubic-bezier(0.25, 0.8, 0.25, 1)',
