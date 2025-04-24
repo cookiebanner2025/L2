@@ -1059,11 +1059,26 @@ function injectConsentHTML(detectedCookies, language = 'en') {
                 ${generateCategorySection('advertising')}
                 ${detectedCookies.uncategorized.length > 0 ? generateCategorySection('uncategorized') : ''}
             </div>
-            <div class="cookie-settings-footer">
-                <button id="rejectAllSettingsBtn" class="cookie-btn reject-btn">${lang.reject}</button>
-                <button id="saveSettingsBtn" class="cookie-btn save-btn">${lang.save}</button>
-                <button id="acceptAllSettingsBtn" class="cookie-btn accept-btn">${lang.accept}</button>
-            </div>
+
+
+
+
+            
+         // In the main HTML structure, modify the cookie-settings-footer div:
+<div class="cookie-settings-footer">
+    ${config.analytics.enabled ? `
+    <div class="see-analytics-footer">
+        <a href="#" class="see-analytics-link">${lang.seeAnalytics}</a>
+    </div>` : ''}
+    <button id="rejectAllSettingsBtn" class="cookie-btn reject-btn">${lang.reject}</button>
+    <button id="saveSettingsBtn" class="cookie-btn save-btn">${lang.save}</button>
+    <button id="acceptAllSettingsBtn" class="cookie-btn accept-btn">${lang.accept}</button>
+</div>
+
+
+
+
+            
         </div>
     </div>
 
@@ -1904,6 +1919,35 @@ function injectConsentHTML(detectedCookies, language = 'en') {
         margin-top: 10px;
         font-size: 14px;
     }
+
+
+
+
+.see-analytics-footer {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.see-analytics-footer .see-analytics-link {
+    color: ${config.bannerStyle.linkColor};
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.see-analytics-footer .see-analytics-link:hover {
+    color: ${config.bannerStyle.linkHoverColor};
+    text-decoration: underline;
+}
+
+
+
+
+    
 
     /* Responsive Styles */
     @media (max-width: 900px) {
