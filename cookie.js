@@ -1590,34 +1590,33 @@ function injectConsentHTML(detectedCookies, language = 'en') {
     
     // Generate cookie tables for each category
   const generateCategorySection = (category) => {
-    const cookies = detectedCookies[category];
-    const categoryKey = category === 'functional' ? 'essential' : category;
-    const isEssential = category === 'functional';
-    
-    return `
-    <div class="cookie-category">
-        <div class="toggle-container">
-            <h3>${lang[categoryKey]}</h3>
-            <label class="toggle-switch">
-                <input type="checkbox" data-category="${category}" 
-                    ${isEssential ? 'checked disabled' : 'checked'}>
-                <span class="toggle-slider"></span>
-            </label>
-        </div>
-        <p>${lang[`${categoryKey}Desc`]}</p>
-        <div class="cookie-details-container">
-            <div class="cookie-details-header">
-                <span>Cookie Details</span>
-                <span class="toggle-details">+</span>
+        const cookies = detectedCookies[category];
+        const categoryKey = category === 'functional' ? 'essential' : category;
+        const isEssential = category === 'functional';
+        
+        return `
+        <div class="cookie-category">
+            <div class="toggle-container">
+                <h3>${lang[categoryKey]}</h3>
+                <label class="toggle-switch">
+                    <input type="checkbox" data-category="${category}" ${isEssential ? 'checked disabled' : ''}>
+                    <span class="toggle-slider"></span>
+                </label>
             </div>
-            <div class="cookie-details-content" style="display: none;">
-                ${cookies.length > 0 ? 
-                    generateCookieTable(cookies) : 
-                    `<p class="no-cookies-message">No cookies in this category detected.</p>`}
+            <p>${lang[`${categoryKey}Desc`]}</p>
+            <div class="cookie-details-container">
+                <div class="cookie-details-header">
+                    <span>Cookie Details</span>
+                    <span class="toggle-details">+</span>
+                </div>
+                <div class="cookie-details-content" style="display: none;">
+                    ${cookies.length > 0 ? 
+                        generateCookieTable(cookies) : 
+                        `<p class="no-cookies-message">No cookies in this category detected.</p>`}
+                </div>
             </div>
-        </div>
-    </div>`;
-};
+        </div>`;
+    };
     
     // Generate language selector dropdown if enabled
     const languageSelector = config.languageConfig.showLanguageSelector ? `
