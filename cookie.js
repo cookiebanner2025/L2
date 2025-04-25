@@ -3325,22 +3325,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Handle scroll-based acceptance
-function handleScrollAcceptance() {
-    if (getCookie('cookie_consent')) {
-        window.removeEventListener('scroll', handleScrollAcceptance);
-        return;
-    }
-    
-    const scrollPercentage = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
-    if (scrollPercentage > 50) {
-        acceptAllCookies();
-        hideCookieBanner();
-        showFloatingButton();
-        window.removeEventListener('scroll', handleScrollAcceptance);
-    }
-}
-
-// Update cookie tables in modal
 function updateCookieTables(detectedCookies) {
     const categories = ['functional', 'analytics', 'performance', 'advertising', 'uncategorized'];
     
@@ -3352,6 +3336,12 @@ function updateCookieTables(detectedCookies) {
                 content.innerHTML = detectedCookies[category].length > 0 ? 
                     generateCookieTable(detectedCookies[category]) : 
                     '<p class="no-cookies-message">No cookies in this category detected.</p>';
+                
+                // Force open the category if new cookies are detected
+                if (detectedCookies[category].length > 0) {
+                    content.style.display = 'block';
+                    container.querySelector('.toggle-details').textContent = '−';
+                }
             }
         }
     });
