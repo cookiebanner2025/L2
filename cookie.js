@@ -3059,14 +3059,28 @@ function rejectAllCookies() {
 }
 
 function saveCustomSettings() {
+    const analyticsChecked = document.querySelector('input[data-category="analytics"]').checked;
+    const advertisingChecked = document.querySelector('input[data-category="advertising"]').checked;
+    
+    let gcsSignal;
+    if (analyticsChecked && advertisingChecked) {
+        gcsSignal = 'G111';
+    } else if (!analyticsChecked && !advertisingChecked) {
+        gcsSignal = 'G100';
+    } else if (analyticsChecked && !advertisingChecked) {
+        gcsSignal = 'G101';
+    } else if (!analyticsChecked && advertisingChecked) {
+        gcsSignal = 'G110';
+    }
+
     const consentData = {
         status: 'custom',
-        gcs: 'G101',
+        gcs: gcsSignal,
         categories: {
             functional: true,
-            analytics: document.querySelector('input[data-category="analytics"]').checked,
+            analytics: analyticsChecked,
             performance: document.querySelector('input[data-category="performance"]').checked,
-            advertising: document.querySelector('input[data-category="advertising"]').checked,
+            advertising: advertisingChecked,
             uncategorized: document.querySelector('input[data-category="uncategorized"]') ? 
                 document.querySelector('input[data-category="uncategorized"]').checked : false
         },
@@ -3140,11 +3154,21 @@ function updateConsentMode(consentData) {
         'security_storage': 'granted'
     };
 
-    let gcsSignal = 'G100';
+    // Determine GCS signal based on consent status and categories
+    let gcsSignal = 'G100'; // Default to all denied
+    
     if (consentData.status === 'accepted') {
-        gcsSignal = 'G111';
+        gcsSignal = 'G111'; // All granted
     } else if (consentData.status === 'custom') {
-        gcsSignal = 'G101';
+        if (consentData.categories.analytics && !consentData.categories.advertising) {
+            gcsSignal = 'G101'; // Analytics granted, ads denied
+        } else if (consentData.categories.advertising && !consentData.categories.analytics) {
+            gcsSignal = 'G110'; // Ads granted, analytics denied
+        } else if (consentData.categories.analytics && consentData.categories.advertising) {
+            gcsSignal = 'G111'; // Both granted (same as accept all)
+        } else {
+            gcsSignal = 'G100'; // Both denied (same as reject all)
+        }
     }
 
     gtag('consent', 'update', consentStates);
