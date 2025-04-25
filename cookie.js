@@ -14,7 +14,7 @@
 // ============== CONFIGURATION SECTION ============== //
 const config = {
     // Domain restriction
-    allowedDomains: ['dev-rpractice.pantheonsite.io', 'practicebdhere.myshopify.com'],
+    allowedDomains: ['dev-rpractice.pantheonsite.io', 'practicebdhere.myshopify.com', 'habibarafat.com'],
     
     // Behavior configuration
     behavior: {
