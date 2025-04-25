@@ -14,7 +14,7 @@
 // ============== CONFIGURATION SECTION ============== //
 const config = {
     // Domain restriction
-    allowedDomains: ['dev-rpractice.pantheonsite.io', 'yourdomain.com'],
+    allowedDomains: ['dev-rpractice.pantheonsite.io', 'practicebdhere.myshopify.com'],
     
     // Behavior configuration
     behavior: {
@@ -3167,7 +3167,7 @@ function updateConsentMode(consentData) {
         } else if (consentData.categories.analytics && consentData.categories.advertising) {
             gcsSignal = 'G111'; // Both granted (same as accept all)
         } else {
-            gcsSignal = 'G100'; // Both denied (same as reject all)
+            gcsSignal = ''; // Both denied (same as reject all)
         }
     }
 
